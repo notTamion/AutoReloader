@@ -38,6 +38,10 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
             case 1:
                 switch (args[0].toLowerCase()) {
                     case "start":
+                        if(!sender.hasPermission("autoreloader.start")) {
+                            sender.sendMessage("You aren't allowed to execute this command");
+                            return false;
+                        }
                         if(startWatcherThread()) {
                             sender.sendMessage("Started Watcher Thread");
                             return true;
@@ -45,6 +49,10 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                         sender.sendMessage("Watcher Thread already running");
                         return false;
                     case "stop":
+                        if(!sender.hasPermission("autoreloader.stop")) {
+                            sender.sendMessage("You aren't allowed to execute this command");
+                            return false;
+                        }
                         if(stopWatcherThread()) {
                             sender.sendMessage("Stopped Watcher Thread");
                             return true;
@@ -52,6 +60,10 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                         sender.sendMessage("Watcher Thread not running");
                         return false;
                     case "info":
+                        if(!sender.hasPermission("autoreloader.info")) {
+                            sender.sendMessage("You aren't allowed to execute this command");
+                            return false;
+                        }
                         sender.sendMessage("Running: " + (watcherTask != null) + "\nDelay: " + getConfig().getInt("delay"));
                         return true;
                     default:
@@ -59,7 +71,11 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                 }
                 return false;
             case 2:
-                if(args[0].equalsIgnoreCase("setReloadDelay")) {
+                if(args[0].equalsIgnoreCase("setDelay")) {
+                    if(!sender.hasPermission("autoreloader.start")) {
+                        sender.sendMessage("You aren't allowed to execute this command");
+                        return false;
+                    }
                     try {
                         getConfig().set("delay", Integer.parseInt(args[1]));
                         saveConfig();
