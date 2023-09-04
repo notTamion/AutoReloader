@@ -1,0 +1,10 @@
+name: AutoReloader
+version: '${project.version}'
+main: de.tamion.AutoReloader
+api-version: '1.13'
+load: STARTUP
+authors: [Tamion]
+description: Automatically reloads the server when a Plugin change is detected
+
+commands:
+  autoreloader:
