@@ -72,7 +72,7 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                 return false;
             case 2:
                 if(args[0].equalsIgnoreCase("setDelay")) {
-                    if(!sender.hasPermission("autoreloader.start")) {
+                    if(!sender.hasPermission("autoreloader.delay")) {
                         sender.sendMessage("You aren't allowed to execute this command");
                         return false;
                     }
