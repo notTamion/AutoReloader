@@ -30,6 +30,8 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
         startWatcherThread();
         getCommand("autoreloader").setExecutor(this);
         getCommand("autoreloader").setTabCompleter(this);
+
+        Metrics metrics = new Metrics(this, 19733);
     }
 
     @Override
@@ -96,11 +98,14 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
     @Override
     public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         List<String> options = new ArrayList<>();
-        switch (args.length) {
-            case 1:
+        if (args.length == 1) {
+            if (sender.hasPermission("autoreloader.start"))
                 options.add("start");
+            if (sender.hasPermission("autoreloader.stop"))
                 options.add("stop");
+            if (sender.hasPermission("autoreloader.info"))
                 options.add("info");
+            if (sender.hasPermission("autoreloader.delay"))
                 options.add("setDelay");
         }
         return options;
