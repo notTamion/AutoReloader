@@ -64,7 +64,7 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                             sender.sendMessage("You aren't allowed to execute this command");
                             return false;
                         }
-                        sender.sendMessage("Running: " + (watcherTask != null) + "\nDelay: " + getConfig().getInt("delay"));
+                        sender.sendMessage("Running: " + (watcherTask != null) + "\nDelay: " + getConfig().getLong("delay"));
                         return true;
                     default:
                         sender.sendMessage("Invalid Arguments");
@@ -77,8 +77,9 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                         return false;
                     }
                     try {
-                        getConfig().set("delay", Integer.parseInt(args[1]));
+                        getConfig().set("delay", Long.parseLong(args[1]));
                         saveConfig();
+                        sender.sendMessage("Set delay to " + args[1] + " ticks");
                     } catch (NumberFormatException e) {
                         sender.sendMessage("Invalid Value");
                     }
@@ -100,7 +101,7 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                 options.add("start");
                 options.add("stop");
                 options.add("info");
-                options.add("setReloadDelay");
+                options.add("setDelay");
         }
         return options;
     }
@@ -119,7 +120,7 @@ public final class AutoReloader extends JavaPlugin implements CommandExecutor, T
                     while((key= watchService.take()) != null) {
                         for (WatchEvent<?> event : key.pollEvents()) {
                             if(event.context().toString().endsWith(".jar")) {
-                                Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), Bukkit::reload, getPlugin().getConfig().getInt("delay"));
+                                Bukkit.getScheduler().scheduleSyncDelayedTask(getPlugin(), Bukkit::reload, getPlugin().getConfig().getLong("delay"));
                                 return;
                             }
                         }
